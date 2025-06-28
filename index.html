@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMB Cash - Système MLM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #34495e;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        header {
+            background-color: var(--secondary);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+            border-radius: 50%;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        nav a:hover {
+            background-color: var(--primary);
+        }
+
+        .page {
+            display: none;
+            padding: 2rem 0;
+            min-height: calc(100vh - 150px);
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+        }
+
+        .btn-warning {
+            background-color: var(--warning);
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.9rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 0.5rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            background-color: white;
+            box-shadow: var(--box-shadow);
+        }
+
+        .stat-card i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .label {
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 40px 12px 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 38px;
+            cursor: pointer;
+            color: #777;
+            z-index: 10;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+
+        .referral-link {
+            background-color: var(--light);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .referral-link input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+
+        .copy-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+        }
+
+        .referrals-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        .referrals-table th,
+        .referrals-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .referrals-table th {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .referrals-table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .payment-method {
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .payment-method:hover {
+            border-color: var(--primary);
+            background-color: #f8f9fa;
+        }
+
+        .payment-method i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .payment-method.selected {
+            border-color: var(--success);
+            background-color: rgba(39, 174, 96, 0.1);
+        }
+
+        .transaction-log {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-amount {
+            font-weight: 700;
+        }
+
+        .success {
+            color: var(--success);
+        }
+
+        .danger {
+            color: var(--danger);
+        }
+
+        .transaction-date {
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .withdrawal-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        footer {
+            background-color: var(--secondary);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Menu profil */
+        .profile-menu {
+            position: relative;
+        }
+        
+        .profile-icon {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 10px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+        
+        .profile-icon:hover {
+            background-color: var(--primary);
+        }
+        
+        .profile-icon img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid white;
+        }
+        
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            min-width: 250px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            padding: 15px;
+            z-index: 1000;
+            display: none;
+            margin-top: 10px;
+        }
+        
+        .profile-dropdown.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 15px;
+        }
+        
+        .profile-header img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+        
+        .user-info h4 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .user-info p {
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .dropdown-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #f5f5f5;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+        
+        .dropdown-item i {
+            width: 20px;
+            text-align: center;
+            color: var(--primary);
+        }
+        
+        .dropdown-item:hover {
+            color: var(--primary);
+            cursor: pointer;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .withdrawal-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-dropdown {
+                right: 50%;
+                transform: translateX(50%);
+            }
+        }
+        
+        /* Ajout pour gérer les éléments cachés */
+        .hidden {
+            display: none !important;
+        }
+        
+        .nav-auth {
+            display: none;
+        }
+        
+        .nav-guest {
+            display: block;
+        }
+        
+        /* Page de changement de mot de passe */
+        .password-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* Indicateur de force du mot de passe */
+        .password-strength {
+            height: 5px;
+            margin-top: 5px;
+            border-radius: 3px;
+            background-color: #eee;
+            overflow: hidden;
+        }
+        
+        .password-strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .strength-weak {
+            background-color: #e74c3c;
+            width: 30%;
+        }
+        
+        .strength-medium {
+            background-color: #f39c12;
+            width: 60%;
+        }
+        
+        .strength-strong {
+            background-color: #27ae60;
+            width: 100%;
+        }
+        
+        .password-rules {
+            margin-top: 5px;
+            font-size: 0.85rem;
+            color: #777;
+        }
+        
+        .rule-valid {
+            color: #27ae60;
+        }
+        
+        .rule-invalid {
+            color: #e74c3c;
+        }
+        
+        /* Page d'information avant paiement */
+        .info-box {
+            background-color: #e3f2fd;
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .info-box i {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+        
+        .ussd-code {
+            background-color: var(--light);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            font-family: monospace;
+            font-size: 1.2rem;
+            text-align: center;
+            margin: 20px 0;
+            word-break: break-all;
+        }
+        
+        .payment-status {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <img src="public/image/cash.png" alt="LMB Cash Logo">
+                <h1>LMB Cash</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li class="nav-guest"><a href="#" data-page="home">Accueil</a></li>
+                    
+                    <!-- Liens uniquement visibles après authentification -->
+                    <li class="nav-auth"><a href="#" data-page="dashboard">Tableau de bord</a></li>
+                    <li class="nav-auth"><a href="#" data-page="withdraw">Retrait</a></li>
+                    <li class="nav-auth"><a href="#" data-page="transactions">Transactions</a></li>
+                    
+                    <!-- Menu profil (visible après authentification) -->
+                    <li class="nav-auth profile-menu">
+                        <div class="profile-icon">
+                            <img src="https://ui-avatars.com/api/?name=Admin&background=3498db&color=fff" alt="Profil">
+                            <span id="current-user-name">Admin</span>
+                        </div>
+                        <div class="profile-dropdown">
+                            <div class="profile-header">
+                                <img id="current-user-avatar" src="https://ui-avatars.com/api/?name=Admin&background=3498db&color=fff" alt="Profil">
+                                <div class="user-info">
+                                    <h4 id="current-user-fullname">Administrateur</h4>
+                                    <p id="current-user-email">admin@lmbcash.com</p>
+                                </div>
+                            </div>
+                            
+                            <div class="dropdown-item" data-page="profile">
+                                <i class="fas fa-user"></i>
+                                <span>Mon profil</span>
+                            </div>
+                            
+                            <div class="dropdown-item" data-page="referral-link">
+                                <i class="fas fa-link"></i>
+                                <span>Lien de parrainage</span>
+                            </div>
+                            
+                            <div class="dropdown-item" data-page="change-password">
+                                <i class="fas fa-lock"></i>
+                                <span>Changer mot de passe</span>
+                            </div>
+                            
+                            <div class="dropdown-item" id="dropdown-logout">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Déconnexion</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Home Page - Toujours visible -->
+        <div id="home" class="page active">
+            <div class="hero">
+                <h2>Rejoignez LMB Cash aujourd'hui!</h2>
+                <p>Gagnez de l'argent grâce à notre système de parrainage MLM. Inscrivez-vous et commencez à gagner dès maintenant!</p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn" id="register-btn">S'inscrire</a>
+                    <a href="#" class="btn btn-success" id="login-btn">Se connecter</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>Comment ça marche?</h3>
+                <p>LMB Cash fonctionne avec un système MLM (Multi-Level Marketing) qui vous permet de gagner de l'argent en parrainant d'autres personnes.</p>
+                
+                <div class="stats">
+                    <div class="stat-card">
+                        <i class="fas fa-user-plus"></i>
+                        <div class="value">1,000 FCFA</div>
+                        <div class="label">Parrainage direct</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-user-friends"></i>
+                        <div class="value">500 FCFA</div>
+                        <div class="label">Filleul niveau 1</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <div class="value">300 FCFA</div>
+                        <div class="label">Filleul niveau 2</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <div class="value">100 FCFA</div>
+                        <div class="label">Filleul niveau 3</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="login" class="page">
+            <div class="hero">
+                <h2>Connexion à votre compte</h2>
+                <p>Accédez à votre tableau de bord et gérez votre réseau de parrainage</p>
+            </div>
+            
+            <div class="card">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required placeholder="Votre email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login-password">Mot de passe</label>
+                        <input type="password" id="login-password" required placeholder="Votre mot de passe">
+                        <span class="password-toggle" id="login-password-toggle">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success" style="width: 100%;">Se connecter</button>
+                    <p style="text-align: center; margin-top: 1rem;">
+                        Vous n'avez pas de compte? <a href="#" id="to-register">S'inscrire maintenant</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+
+        <!-- Registration Page -->
+        <div id="register" class="page">
+            <div class="hero">
+                <h2>Création de compte</h2>
+                <p>Rejoignez LMB Cash et commencez à gagner dès aujourd'hui</p>
+            </div>
+            
+            <div class="card">
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="firstname">Prénom</label>
+                        <input type="text" id="firstname" required placeholder="Votre prénom">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lastname">Nom</label>
+                        <input type="text" id="lastname" required placeholder="Votre nom">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required placeholder="Votre email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Mot de passe</label>
+                        <input type="password" id="password" required placeholder="Créez un mot de passe">
+                        <span class="password-toggle" id="password-toggle">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm-password">Confirmer le mot de passe</label>
+                        <input type="password" id="confirm-password" required placeholder="Confirmez votre mot de passe">
+                        <span class="password-toggle" id="confirm-password-toggle">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="sponsor">Code de parrainage (optionnel)</label>
+                        <input type="text" id="sponsor" placeholder="Entrez le code de votre parrain">
+                        <small>Si vous n'avez pas de code de parrainage, laissez ce champ vide</small>
+                    </div>
+                    
+                    <button type="submit" class="btn" style="width: 100%;" id="register-submit">Créer mon compte</button>
+                    <p style="text-align: center; margin-top: 1rem;">
+                        Vous avez déjà un compte? <a href="#" id="to-login">Se connecter</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+
+        <!-- Payment Info Page -->
+        <div id="payment-info" class="page">
+            <div class="hero">
+                <h2>Information importante</h2>
+                <p>Avant de procéder au paiement</p>
+            </div>
+            
+            <div class="card">
+                <div class="info-box">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Veuillez vous assurer que vous avez au moins 2650 FCFA sur votre compte mobile money.</strong>
+                </div>
+                
+                <p>Le paiement de l'inscription est obligatoire et non remboursable. Une fois le paiement effectué, votre compte sera activé immédiatement.</p>
+                
+                <h3>Instructions importantes:</h3>
+                <ul style="margin: 15px 0; padding-left: 20px;">
+                    <li>Assurez-vous d'avoir suffisamment d'argent sur votre compte mobile money</li>
+                    <li>Le paiement est de 2650 FCFA exactement</li>
+                    <li>Utilisez le même numéro que vous avez fourni lors de l'inscription</li>
+                    <li>Après paiement, vous serez redirigé vers votre tableau de bord</li>
+                </ul>
+                
+                <button class="btn btn-success" id="proceed-to-payment" style="width: 100%;">Je comprends, procéder au paiement</button>
+            </div>
+        </div>
+
+        <!-- Payment Page -->
+        <div id="payment" class="page">
+            <div class="hero">
+                <h2>Paiement de l'inscription</h2>
+                <p>Finalisez votre inscription en payant 2,650 FCFA</p>
+            </div>
+            
+            <div class="card">
+                <h3>Choisissez votre méthode de paiement</h3>
+                
+                <div class="payment-methods">
+                    <div class="payment-method" data-method="flooz">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h4>Flooz</h4>
+                    </div>
+                    <div class="payment-method" data-method="tmoney">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h4>T-Money</h4>
+                    </div>
+                    <div class="payment-method" data-method="mix">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h4>Mix by Yas</h4>
+                    </div>
+                    <div class="payment-method" data-method="orange">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h4>Orange Money</h4>
+                    </div>
+                </div>
+                
+                <div id="payment-details" style="display: none;">
+                    <div class="form-group">
+                        <label for="phone">Numéro de téléphone</label>
+                        <input type="tel" id="phone" placeholder="Votre numéro de téléphone">
+                    </div>
+                    
+                    <button id="pay-now" class="btn btn-success" style="width: 100%;">Payer maintenant</button>
+                </div>
+                
+                <div id="payment-status" class="payment-status">
+                    <h3><i class="fas fa-sync fa-spin"></i> Traitement en cours</h3>
+                    <p>Veuillez patienter quelques minutes, un administrateur est en train de valider votre inscription.</p>
+                    <p>Si vous manquez de patience, appelez le <strong>91 62 04 11</strong> ou le <strong>98 63 56 54</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard" class="page">
+            <div class="hero">
+                <h2>Tableau de bord</h2>
+                <p>Bienvenue dans votre espace personnel LMB Cash</p>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <i class="fas fa-wallet"></i>
+                    <div class="value" id="balance-amount">0 FCFA</div>
+                    <div class="label">Solde disponible</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <div class="value" id="direct-referrals">0</div>
+                    <div class="label">Parrainages directs</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-chart-line"></i>
+                    <div class="value" id="total-earnings">0 FCFA</div>
+                    <div class="label">Gains totaux</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-hand-holding-usd"></i>
+                    <div class="value" id="withdrawn">0 FCFA</div>
+                    <div class="label">Retiré</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>Votre lien de parrainage</h3>
+                <div class="referral-link">
+                    <input type="text" id="referral-link" value="" readonly>
+                    <button class="copy-btn" id="copy-link"><i class="fas fa-copy"></i> Copier</button>
+                </div>
+                <p>Partagez ce lien avec vos amis pour les parrainer et gagner des commissions!</p>
+            </div>
+            
+            <div class="card">
+                <h3>Vos filleuls récents</h3>
+                <table class="referrals-table">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Date</th>
+                            <th>Niveau</th>
+                            <th>Commission</th>
+                        </tr>
+                    </thead>
+                    <tbody id="referrals-list">
+                        <!-- Les filleuls seront ajoutés dynamiquement ici -->
+                        <tr>
+                            <td colspan="4" style="text-align: center;">Aucun filleul pour le moment</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Withdrawal Page -->
+        <div id="withdraw" class="page">
+            <div class="hero">
+                <h2>Demande de retrait</h2>
+                <p>Retirez votre argent sur votre compte mobile money</p>
+            </div>
+            
+            <div class="card">
+                <h3>Solde disponible: <span id="withdraw-balance">0 FCFA</span></h3>
+                
+                <form id="withdraw-form">
+                    <div class="withdrawal-form">
+                        <div>
+                            <div class="form-group">
+                                <label for="withdraw-amount">Montant à retirer (FCFA)</label>
+                                <input type="number" id="withdraw-amount" min="1000" value="1000" required>
+                                <small>Minimum: 1,000 FCFA</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="withdraw-method">Méthode de retrait</label>
+                                <select id="withdraw-method" required>
+                                    <option value="">Choisissez une méthode</option>
+                                    <option value="flooz">Flooz</option>
+                                    <option value="tmoney">T-Money</option>
+                                    <option value="mix">Mix by Yas</option>
+                                    <option value="orange">Orange Money</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="form-group">
+                                <label for="withdraw-phone">Numéro de téléphone</label>
+                                <input type="tel" id="withdraw-phone" placeholder="Votre numéro mobile" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="withdraw-name">Nom sur le compte</label>
+                                <input type="text" id="withdraw-name" placeholder="Nom associé au compte" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success" style="width: 100%;">Demander le retrait</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Transactions Page -->
+        <div id="transactions" class="page">
+            <div class="hero">
+                <h2>Historique des transactions</h2>
+                <p>Suivez toutes vos activités financières</p>
+            </div>
+            
+            <div class="card">
+                <div class="transaction-log" id="transactions-list">
+                    <!-- Les transactions seront ajoutées dynamiquement ici -->
+                    <div class="transaction-item">
+                        <div>
+                            <div class="transaction-description">Aucune transaction pour le moment</div>
+                            <div class="transaction-date"></div>
+                        </div>
+                        <div class="transaction-amount"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3>LMB Cash</h3>
+                <p>Le système de parrainage MLM qui vous permet de gagner de l'argent en développant votre réseau.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Liens rapides</h3>
+                <ul style="list-style: none;">
+                    <li><a href="#" data-page="home">Accueil</a></li>
+                    <li><a href="#">À propos</a></li>
+                    <li><a href="#">Comment ça marche</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-envelope"></i> contact@lmbcash.com</p>
+                <p><i class="fas fa-phone"></i> +225 91 62 04 11</p>
+                <p><i class="fas fa-phone"></i> +225 98 63 56 54</p>
+                <p><i class="fas fa-map-marker-alt"></i> Abidjan, Côte d'Ivoire</p>
+            </div>
+        </div>
+        
+        <div class="container copyright">
+            <p>&copy; 2023 LMB Cash. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Système de données
+        let users = [];
+        let transactions = [];
+        let commissions = [];
+        let payments = [];
+        let withdrawals = [];
+        
+        // Configuration du système
+        const systemConfig = {
+            registrationFee: 2650,
+            minWithdrawal: 1000,
+            withdrawalFee: 100,
+            commissions: {
+                direct: 1000,
+                level1: 500,
+                level2: 300,
+                level3: 100
+            },
+            adminPhone1: "91620411",
+            adminPhone2: "98635654"
+        };
+        
+        // État d'authentification
+        const isAuthenticated = () => {
+            return localStorage.getItem('isAuthenticated') === 'true';
+        };
+        
+        // Données utilisateur simulées
+        let currentUser = null;
+
+        // Fonction pour mettre à jour la navigation
+        const updateNavigation = () => {
+            const navAuthElements = document.querySelectorAll('.nav-auth');
+            const navGuestElements = document.querySelectorAll('.nav-guest');
+            
+            if (isAuthenticated()) {
+                navAuthElements.forEach(el => el.style.display = 'block');
+                navGuestElements.forEach(el => el.style.display = 'none');
+                
+                // Mettre à jour les informations utilisateur dans le menu
+                if (currentUser) {
+                    document.querySelector('.profile-icon span').textContent = `${currentUser.firstName} ${currentUser.lastName}`;
+                    document.querySelector('.profile-icon img').src = `https://ui-avatars.com/api/?name=${currentUser.firstName}+${currentUser.lastName}&background=3498db&color=fff`;
+                    document.querySelector('.user-info h4').textContent = `${currentUser.firstName} ${currentUser.lastName}`;
+                    document.querySelector('.user-info p').textContent = currentUser.email;
+                }
+            } else {
+                navAuthElements.forEach(el => el.style.display = 'none');
+                navGuestElements.forEach(el => el.style.display = 'block');
+            }
+        };
+
+        // Fonction pour montrer une page
+        const showPage = (pageId) => {
+            // Fermer le menu déroulant
+            document.querySelector('.profile-dropdown').classList.remove('active');
+            
+            // Cacher toutes les pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Afficher la page demandée
+            document.getElementById(pageId).classList.add('active');
+            
+            // Mettre à jour la navigation
+            updateNavigation();
+            
+            // Si on essaie d'accéder à une page sécurisée sans être authentifié
+            const protectedPages = ['dashboard', 'withdraw', 'transactions', 'referral-link-page', 'change-password', 'profile'];
+            if (protectedPages.includes(pageId) && !isAuthenticated()) {
+                showPage('login');
+                alert('Veuillez vous connecter pour accéder à cette page.');
+            }
+            
+            // Mettre à jour les données si nécessaire
+            if (pageId === 'dashboard' && currentUser) {
+                updateDashboard();
+            }
+        };
+
+        // Mettre à jour le tableau de bord
+        function updateDashboard() {
+            if (!currentUser) return;
+            
+            // Calculer les statistiques
+            const directReferrals = users.filter(u => u.sponsorId === currentUser.id).length;
+            const totalEarnings = commissions
+                .filter(c => c.userId === currentUser.id)
+                .reduce((sum, c) => sum + c.amount, 0);
+                
+            // Mettre à jour les valeurs
+            document.getElementById('balance-amount').textContent = currentUser.balance + ' FCFA';
+            document.getElementById('direct-referrals').textContent = directReferrals;
+            document.getElementById('total-earnings').textContent = totalEarnings + ' FCFA';
+            document.getElementById('withdrawn').textContent = withdrawals
+                .filter(w => w.userId === currentUser.id && w.status === 'approved')
+                .reduce((sum, w) => sum + w.amount, 0) + ' FCFA';
+            
+            // Mettre à jour le lien de parrainage
+            document.getElementById('referral-link').value = `${window.location.href.split('?')[0]}?ref=${currentUser.id}`;
+            
+            // Mettre à jour la liste des filleuls
+            const referralsList = document.getElementById('referrals-list');
+            referralsList.innerHTML = '';
+            
+            const userReferrals = users.filter(u => u.sponsorId === currentUser.id);
+            if (userReferrals.length === 0) {
+                referralsList.innerHTML = `<tr><td colspan="4" style="text-align: center;">Aucun filleul pour le moment</td></tr>`;
+            } else {
+                userReferrals.forEach(user => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${user.firstName} ${user.lastName}</td>
+                        <td>${new Date(user.joinDate).toLocaleDateString()}</td>
+                        <td>Direct</td>
+                        <td>${systemConfig.commissions.direct} FCFA</td>
+                    `;
+                    referralsList.appendChild(row);
+                });
+            }
+            
+            // Mettre à jour le solde pour le retrait
+            document.getElementById('withdraw-balance').textContent = currentUser.balance + ' FCFA';
+        }
+
+        // Initialisation au chargement de la page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Créer l'utilisateur admin par défaut
+            createAdminUser();
+            
+            // Si l'utilisateur est déjà authentifié, montrer le tableau de bord
+            if (isAuthenticated()) {
+                const userId = localStorage.getItem('userId');
+                currentUser = users.find(u => u.id === userId);
+                showPage('dashboard');
+            } else {
+                showPage('home');
+            }
+            
+            // Mettre à jour la navigation
+            updateNavigation();
+            
+            // Vérifier s'il y a un code de parrainage dans l'URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const refCode = urlParams.get('ref');
+            if (refCode) {
+                document.getElementById('sponsor').value = refCode;
+            }
+        });
+
+        // Gestion de la navigation
+        document.querySelectorAll('a[data-page]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('data-page');
+                showPage(pageId);
+            });
+        });
+
+        // Gestion du menu déroulant
+        document.querySelector('.profile-icon').addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.querySelector('.profile-dropdown').classList.toggle('active');
+        });
+        
+        // Fermer le menu déroulant en cliquant ailleurs
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.profile-menu')) {
+                document.querySelector('.profile-dropdown').classList.remove('active');
+            }
+        });
+        
+        // Navigation dans le menu déroulant
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = item.getAttribute('data-page') || 'dashboard';
+                if (item.id === 'dropdown-logout') {
+                    localStorage.removeItem('isAuthenticated');
+                    localStorage.removeItem('userId');
+                    currentUser = null;
+                    showPage('home');
+                    alert('Vous avez été déconnecté avec succès.');
+                } else {
+                    showPage(pageId);
+                }
+            });
+        });
+
+        // Login/Register Navigation
+        document.getElementById('login-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('login');
+        });
+
+        document.getElementById('register-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('register');
+        });
+
+        document.getElementById('to-login').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('login');
+        });
+
+        document.getElementById('to-register').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('register');
+        });
+
+        // Payment Method Selection
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', () => {
+                document.querySelectorAll('.payment-method').forEach(m => {
+                    m.classList.remove('selected');
+                });
+                method.classList.add('selected');
+                document.getElementById('payment-details').style.display = 'block';
+            });
+        });
+
+        // Copy Referral Link
+        document.getElementById('copy-link').addEventListener('click', () => {
+            const linkInput = document.getElementById('referral-link');
+            linkInput.select();
+            document.execCommand('copy');
+            alert('Lien copié dans le presse-papier!');
+        });
+        
+        // Form Submissions
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Trouver l'utilisateur
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                // Simuler l'authentification
+                localStorage.setItem('isAuthenticated', 'true');
+                localStorage.setItem('userId', user.id);
+                currentUser = user;
+                showPage('dashboard');
+            } else {
+                alert('Email ou mot de passe incorrect!');
+            }
+        });
+
+        document.getElementById('register-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const firstName = document.getElementById('firstname').value;
+            const lastName = document.getElementById('lastname').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const sponsorCode = document.getElementById('sponsor').value;
+            
+            if (password !== confirmPassword) {
+                alert('Les mots de passe ne correspondent pas!');
+                return;
+            }
+            
+            // Vérifier si l'email est déjà utilisé
+            if (users.some(u => u.email === email)) {
+                alert('Cet email est déjà utilisé!');
+                return;
+            }
+            
+            // Créer un nouvel utilisateur
+            const newUser = {
+                id: generateId(),
+                firstName,
+                lastName,
+                email,
+                password,
+                balance: 0,
+                status: 'pending',
+                sponsorId: null,
+                joinDate: new Date(),
+                isAdmin: false
+            };
+            
+            // Trouver le parrain si un code est fourni
+            if (sponsorCode) {
+                const sponsor = users.find(u => u.id === sponsorCode);
+                if (sponsor) {
+                    newUser.sponsorId = sponsor.id;
+                }
+            }
+            
+            // Ajouter l'utilisateur
+            users.push(newUser);
+            
+            // Rediriger vers la page d'information avant paiement
+            currentUser = newUser;
+            showPage('payment-info');
+        });
+
+        // Procéder au paiement après l'information
+        document.getElementById('proceed-to-payment').addEventListener('click', () => {
+            showPage('payment');
+        });
+
+        // Paiement avec codes USSD
+        document.getElementById('pay-now').addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            if (!currentUser) return;
+            
+            const phone = document.getElementById('phone').value;
+            const method = document.querySelector('.payment-method.selected').dataset.method;
+            
+            if (!phone) {
+                alert('Veuillez entrer votre numéro de téléphone');
+                return;
+            }
+            
+            // Générer le code USSD selon l'opérateur
+            let ussdCode = '';
+            
+            if (method === 'tmoney' || method === 'mix') {
+                // Syntaxe pour T-Money et Mix by Yas
+                ussdCode = `*145*1*${systemConfig.registrationFee}*${systemConfig.adminPhone1}*2#`;
+            } else if (method === 'flooz') {
+                // Syntaxe pour Flooz
+                ussdCode = `*155*1*1*${systemConfig.adminPhone2}*${systemConfig.adminPhone2}*${systemConfig.registrationFee}*2#`;
+            } else {
+                // Pour Orange Money ou autres, utiliser le premier numéro
+                ussdCode = `#150*1*${systemConfig.registrationFee}*${systemConfig.adminPhone1}#`;
+            }
+            
+            // Afficher le code USSD
+            const ussdDisplay = document.createElement('div');
+            ussdDisplay.className = 'ussd-code';
+            ussdDisplay.innerHTML = `
+                <p>Veuillez composer le code suivant sur votre téléphone :</p>
+                <div class="code">${ussdCode}</div>
+                <button class="btn" id="copy-ussd" style="margin-top: 15px;">Copier le code</button>
+            `;
+            
+            // Remplacer le formulaire par le code USSD
+            document.getElementById('payment-details').innerHTML = '';
+            document.getElementById('payment-details').appendChild(ussdDisplay);
+            
+            // Ajouter le bouton pour lancer l'appel
+            const callButton = document.createElement('button');
+            callButton.className = 'btn btn-success';
+            callButton.style.width = '100%';
+            callButton.style.marginTop = '15px';
+            callButton.innerHTML = '<i class="fas fa-phone"></i> Composer le code';
+            callButton.onclick = () => {
+                window.location.href = `tel:${ussdCode}`;
+                document.getElementById('payment-status').style.display = 'block';
+            };
+            
+            document.getElementById('payment-details').appendChild(callButton);
+            
+            // Copier le code USSD
+            document.getElementById('copy-ussd').addEventListener('click', () => {
+                navigator.clipboard.writeText(ussdCode);
+                alert('Code USSD copié dans le presse-papier!');
+            });
+        });
+
+        // Créer l'utilisateur admin
+        function createAdminUser() {
+            if (users.length === 0) {
+                users.push({
+                    id: 'admin123',
+                    firstName: 'Admin',
+                    lastName: 'LMB',
+                    email: 'admin@lmbcash.com',
+                    password: 'admin123',
+                    balance: 0,
+                    status: 'active',
+                    sponsorId: null,
+                    joinDate: new Date(),
+                    isAdmin: true
+                });
+            }
+        }
+        
+        // Générer un ID unique
+        function generateId() {
+            return Math.random().toString(36).substr(2, 9);
+        }
+        
+        // Toggle password visibility
+        function setupPasswordToggle(passwordId, toggleId) {
+            const passwordInput = document.getElementById(passwordId);
+            const toggleIcon = document.getElementById(toggleId);
+            
+            toggleIcon.addEventListener('click', () => {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                toggleIcon.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+            });
+        }
+        
+        // Setup password toggles
+        setupPasswordToggle('login-password', 'login-password-toggle');
+        setupPasswordToggle('password', 'password-toggle');
+        setupPasswordToggle('confirm-password', 'confirm-password-toggle');
+    </script>
+</body>
+</html>
