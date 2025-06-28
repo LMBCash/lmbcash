@@ -1,0 +1,51 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+header {
+  background-color: #004aad;
+  color: white;
+  padding: 1em 0;
+}
+
+.logo {
+  width: 100px;
+  border-radius: 8px;
+}
+
+main {
+  padding: 2em;
+}
+
+input, select, button {
+  display: block;
+  margin: 1em auto;
+  padding: 0.5em;
+  width: 80%;
+  max-width: 400px;
+}
+
+button {
+  background-color: #004aad;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+button:hover {
+  background-color: #003580;
+}
+
+.hidden {
+  display: none;
+}
+
+#copyBtn {
+  padding: 0.4em 0.8em;
+  font-size: 0.9em;
+}

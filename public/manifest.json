@@ -1,0 +1,16 @@
+{
+  "name": "LMB Cash",
+  "short_name": "LMB",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#004aad",
+  "description": "Application PWA pour LMB Cash - Inscription MLM avec paiements mobiles.",
+  "icons": [
+    {
+      "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGir5062WbM-R9FTYOGm8foLbqRTjvlPndhA&s",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ]
+}
